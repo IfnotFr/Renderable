@@ -1,6 +1,7 @@
 <?php namespace Ifnot\Renderable;
 
 use Illuminate\Support\ServiceProvider;
+use View;
 
 class RenderableServiceProvider extends ServiceProvider {
 
@@ -19,6 +20,8 @@ class RenderableServiceProvider extends ServiceProvider {
 	public function boot()
 	{
 		$this->package('ifnot/renderable');
+
+        View::addNamespace('ifnot.renderable', realpath(__DIR__.'/../../views'));
 	}
 
 	/**
