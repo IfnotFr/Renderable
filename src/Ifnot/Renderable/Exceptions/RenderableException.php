@@ -1,7 +1,7 @@
-<?php namespace Laracasts\Presenter\Exceptions;
+<?php namespace Ifnot\Renderable\Exceptions;
 
 /**
  * Class RendererException
- * @package Laracasts\Presenter\Exceptions
+ * @package Ifnot\Renderable\Exceptions
  */
 class RendererException extends \Exception {}

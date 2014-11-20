@@ -1,6 +1,6 @@
 <?php namespace Ifnot\Renderable;
 
-use Laracasts\Presenter\Exceptions\RendererException;
+use Ifnot\Renderable\Exceptions\RendererException;
 
 /**
  * Class RenderableTrait
