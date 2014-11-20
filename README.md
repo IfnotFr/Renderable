@@ -1,6 +1,6 @@
 # Renderable
 
-Renderable is a PHP Presenter for Laravel. It allow to present object with blade views.
+Renderable is a PHP Presenter for Laravel, based on blade views for a final presentation of Eloquent models directly on your views.
 
 ## Installation
 
