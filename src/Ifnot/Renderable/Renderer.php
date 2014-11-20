@@ -5,6 +5,7 @@
  * @package Ifnot\Renderable
  */
 abstract class Renderer {
+    protected $defaultRenderer = 'Ifnot\Renderable\Renderers\HtmlRenderer';
 
     /**
      * @var mixed
@@ -35,5 +36,9 @@ abstract class Renderer {
         return $this->entity->{$property};
     }
 
-    public function 
+    protected function render($attribute, $rendererClass = null, $options = [])
+    {
+        if(is_null($rendererClass)) $rendererClass = $this->defaultRenderer;
+        $attrRenderer = new $rendererClass($this->entity, $attribute, $options);
+    }
 } 
