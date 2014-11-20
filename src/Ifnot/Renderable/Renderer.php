@@ -6,6 +6,9 @@
  */
 abstract class Renderer {
     protected $defaultRenderer = 'Ifnot\Renderable\Renderers\HtmlRenderer';
+    protected $options = [
+        'view' => 'ifnot.renderable::renderer.model.html'
+    ];
 
     /**
      * @var mixed
@@ -40,5 +43,12 @@ abstract class Renderer {
     {
         if(is_null($rendererClass)) $rendererClass = $this->defaultRenderer;
         $attrRenderer = new $rendererClass($this->entity, $attribute, $options);
+    }
+
+    public function __toString()
+    {
+        return \View::make($this->options['view'], [
+            'entity' => $this->entity
+        ]);
     }
 } 
