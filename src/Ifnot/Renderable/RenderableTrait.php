@@ -27,7 +27,7 @@ trait RenderableTrait {
             throw new RendererException('Please set the $renderer property to your renderer path.');
         }
 
-        if (!$this->$rendererInstance)
+        if (!$this->rendererInstance)
         {
             $this->rendererInstance = new $this->renderer($this);
         }
