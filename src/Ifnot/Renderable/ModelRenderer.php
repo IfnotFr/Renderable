@@ -1,7 +1,5 @@
 <?php namespace Ifnot\Renderable;
 
-
-
 /**
  * Class ModelRenderer
  * @package Ifnot\Renderable
@@ -38,7 +36,7 @@ abstract class ModelRenderer {
             return $this->{$property}();
         }
 
-        return $this->entity->{$property};
+        return $this->render($property);
     }
 
     /**
@@ -49,7 +47,10 @@ abstract class ModelRenderer {
     protected function render($attribute, $rendererClass = null, $options = [])
     {
         if(is_null($rendererClass)) $rendererClass = $this->defaultRenderer;
-        $attrRenderer = new $rendererClass($this->entity, $attribute, $options);
+
+        $renderer = new $rendererClass($this->entity, $attribute, $options);
+
+        return $renderer->__toString();
     }
 
     /**
