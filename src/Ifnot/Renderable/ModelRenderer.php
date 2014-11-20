@@ -1,10 +1,12 @@
 <?php namespace Ifnot\Renderable;
 
+
+
 /**
- * Class Renderer
+ * Class ModelRenderer
  * @package Ifnot\Renderable
  */
-abstract class Renderer {
+abstract class ModelRenderer {
     protected $defaultRenderer = 'Ifnot\Renderable\Renderers\HtmlRenderer';
     protected $options = [
         'view' => 'ifnot.renderable::renderer.model.html'
@@ -39,12 +41,20 @@ abstract class Renderer {
         return $this->entity->{$property};
     }
 
+    /**
+     * @param $attribute
+     * @param null $rendererClass
+     * @param array $options
+     */
     protected function render($attribute, $rendererClass = null, $options = [])
     {
         if(is_null($rendererClass)) $rendererClass = $this->defaultRenderer;
         $attrRenderer = new $rendererClass($this->entity, $attribute, $options);
     }
 
+    /**
+     * @return \Illuminate\View\View
+     */
     public function __toString()
     {
         return \View::make($this->options['view'], [
