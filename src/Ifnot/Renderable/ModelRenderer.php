@@ -53,9 +53,21 @@ abstract class ModelRenderer {
      */
     public function __get($attribute)
     {
-        if (method_exists($this, $attribute))
+        if(method_exists($this, $attribute))
             return $this->{$attribute}();
 
+        return $this->render($attribute);
+    }
+
+    /**
+     * Allow for method-style retrieval
+     *
+     * @param $attribute
+     * @param $args
+     * @throws RendererException
+     */
+    public function __call($attribute, $args)
+    {
         return $this->render($attribute);
     }
 
