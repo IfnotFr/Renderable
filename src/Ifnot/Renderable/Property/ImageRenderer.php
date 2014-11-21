@@ -1,13 +1,13 @@
-<?php namespace Ifnot\Renderable\Renderers\Property;
+<?php namespace Ifnot\Renderable\Property;
 
 /**
  * Class ImageRenderer
- * @package Ifnot\Renderable\Renderers\Property
+ * @package Ifnot\Renderable\Property
  */
 class ImageRenderer extends BaseRenderer {
 	protected $options = [
 		'view' => [
-            'ifnot.renderable::renderer.attribute.image'
+            'ifnot.renderable::renderer.property.image'
         ]
 	];
 }

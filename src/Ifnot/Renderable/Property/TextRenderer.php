@@ -1,13 +1,13 @@
-<?php namespace Ifnot\Renderable\Renderers\Property;
+<?php namespace Ifnot\Renderable\Property;
 
 /**
  * Class TextRenderer
- * @package Ifnot\Renderable\Renderers\Property
+ * @package Ifnot\Renderable\Property
  */
 class TextRenderer extends BaseRenderer {
 	protected $options = [
 		'view' => [
-            'show' => 'ifnot.renderable::renderer.attribute.text'
+            'show' => 'ifnot.renderable::renderer.property.text'
         ]
 	];
 }

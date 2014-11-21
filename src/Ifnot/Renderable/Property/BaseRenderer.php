@@ -1,29 +1,31 @@
-<?php namespace Ifnot\Renderable\Renderers\Property;
+<?php namespace Ifnot\Renderable\Property;
 
 /**
  * Class BaseRenderer
- * @package Ifnot\Renderable\Renderers\Property
+ * @package Ifnot\Renderable\Property
  */
 abstract class BaseRenderer {
 
     protected $entity;
-    protected $attribute;
+    protected $property;
+
+    public static $defaultRenderers;
 
 	protected $options = [
 		'view' => [
-            'show' => 'ifnot.renderable::renderer.attribute.html'
+            'show' => 'ifnot.renderable::renderer.property.html'
         ]
 	];
 
     /**
      * @param $entity
-     * @param $attribute
+     * @param $property
      * @param $options
      */
-    public function __construct($entity, $attribute, $options)
+    public function __construct($entity, $property, $options)
     {
         $this->entity = $entity;
-        $this->attribute = $attribute;
+        $this->property = $property;
     }
 
     /**
@@ -31,7 +33,7 @@ abstract class BaseRenderer {
      */
     public function get()
     {
-        return $this->entity->{$this->attribute};
+        return $this->entity->{$this->property};
     }
 
     /**
@@ -39,7 +41,7 @@ abstract class BaseRenderer {
      */
     public function set($content)
 	{
-        $this->entity->{$this->attribute} = $content;
+        $this->entity->{$this->property} = $content;
         $this->entity->save();
 	}
 
@@ -48,18 +50,18 @@ abstract class BaseRenderer {
      */
     public function isEmpty()
     {
-        return !isset($this->entity->{$this->attribute}) OR empty($this->entity->{$this->attribute});
+        return !isset($this->entity->{$this->property}) OR empty($this->entity->{$this->property});
     }
 
     /**
      * @param $tag
-     * @param $attributes
+     * @param $propertys
      * @return string
      */
-    public function into($tag, $attributes)
+    public function into($tag, $propertys)
     {
         $openTag = '<' . $tag . ' ';
-        foreach($attributes as $name => $value) {
+        foreach($propertys as $name => $value) {
             $openTag .= $name . '="' . str_replace('"', '\\"', $value) . '" ';
         }
         $openTag .= '>';

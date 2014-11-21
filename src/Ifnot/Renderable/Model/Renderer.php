@@ -13,7 +13,7 @@ abstract class Renderer {
 
     public static $defaultRenderingMode;
     public static $defaultModelRenderers;
-    public static $defaultAttributeRenderers;
+    public static $defaultPropertyRenderers;
 
     /**
      * @var mixed
@@ -55,42 +55,42 @@ abstract class Renderer {
      * @param $property
      * @return mixed
      */
-    public function __get($attribute)
+    public function __get($property)
     {
-        if(method_exists($this, $attribute))
-            return $this->{$attribute}();
+        if(method_exists($this, $property))
+            return $this->{$property}();
 
-        return $this->render($attribute);
+        return $this->render($property);
     }
 
     /**
      * Allow for method-style retrieval
      *
-     * @param $attribute
+     * @param $property
      * @param $args
      * @throws RendererException
      */
-    public function __call($attribute, $args)
+    public function __call($property, $args)
     {
-        return $this->render($attribute);
+        return $this->render($property);
     }
 
     /**
-     * @param $attribute
+     * @param $property
      * @param null $renderer
      * @param array $options
      */
-    protected function render($attribute, $renderer = null, $options = [])
+    protected function render($property, $renderer = null, $options = [])
     {
-        $attributeRenderers = self::$defaultAttributeRenderers;
+        $propertyRenderers = self::$defaultPropertyRenderers;
 
         // Load default renderer if no renderer defined
         if(is_null($renderer))
-            $renderer = $attributeRenderers[$this->mode];
+            $renderer = $propertyRenderers[$this->mode];
 
         // If the $renderer is a valid class instanciate and run
         if(class_exists($renderer)) {
-            $renderer = new $renderer($this->entity, $attribute, $this->mode);
+            $renderer = new $renderer($this->entity, $property, $this->mode);
             return $renderer;
         }
 
@@ -98,12 +98,12 @@ abstract class Renderer {
         elseif(View::exists($renderer)) {
             return View::make($renderer, [
                 'entity' => $this->entity,
-                'attribute' => $attribute,
-                'value' => $this->entity->$attribute
+                'property' => $property,
+                'value' => $this->entity->$property
             ]);
         }
         else {
-            throw new RendererException('Could not found any class or view named "' . $renderer . '" for rendering attribute "' . $attribute . '" of object "' . get_parent_class() . '"');
+            throw new RendererException('Could not found any class or view named "' . $renderer . '" for rendering property "' . $property . '" of object "' . get_parent_class() . '"');
         }
     }
 } 

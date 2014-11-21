@@ -11,7 +11,7 @@ return [
     'default_model_renderers' => [
         'show' => 'ifnot.renderable::renderer.model.html'
     ],
-    'default_attribute_renderers' => [
+    'default_property_renderers' => [
         'show' => 'ifnot.renderable::renderer.attribute.html'
     ],
 
