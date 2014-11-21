@@ -1,1 +1,1 @@
-{{ $render->__toString() }}
+{{ $value }}
