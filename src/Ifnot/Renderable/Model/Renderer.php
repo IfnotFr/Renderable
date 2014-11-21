@@ -1,14 +1,14 @@
-<?php namespace Ifnot\Renderable;
+<?php namespace Ifnot\Renderable\Model;
 
 use Ifnot\Renderable\Exceptions\RendererException;
 use Config;
 use View;
 
 /**
- * Class ModelRenderer
- * @package Ifnot\Renderable
+ * Class Renderer
+ * @package Ifnot\Renderable\Model
  */
-abstract class ModelRenderer {
+abstract class Renderer {
     protected $mode = 'show';
 
     /**

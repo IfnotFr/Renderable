@@ -1,8 +1,8 @@
-<?php namespace Ifnot\Renderable\Renderers;
+<?php namespace Ifnot\Renderable\Renderers\Property;
 
 /**
  * Class HtmlRenderer
- * @package Ifnot\Renderable\Renderers
+ * @package Ifnot\Renderable\Renderers\Property
  */
 class HtmlRenderer extends BaseRenderer {
 	protected $options = [
