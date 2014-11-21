@@ -103,7 +103,7 @@ abstract class Renderer {
             ]);
         }
         else {
-            throw new RendererException('Could not found any class or view named "' . $renderer . '" for rendering property "' . $property . '" of object "' . get_class() . '"');
+            throw new RendererException('Could not found any class or view named "' . $renderer . '" for rendering property "' . $property . '" of object "' . get_class($this->entity) . '"');
         }
     }
 } 
