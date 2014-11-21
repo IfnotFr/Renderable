@@ -37,8 +37,21 @@ class BaseRenderer {
         return !isset($this->entity->{$this->attribute}) OR empty($this->entity->{$this->attribute});
     }
 
+    public function into($tag, $attributes)
+    {
+        $openTag = '<' . $tag . ' ';
+        foreach($attributes as $name => $value) {
+            $openTag .= $name . '="' . str_replace('"', '\\"', $value) . '" ';
+        }
+        $openTag .= '>';
+
+        $closeTag = '</' . $tag . '>';
+
+        return $openTag . (string) $this->get() . $closeTag;
+    }
+
 	public function __toString()
 	{
-		return $this->get();
+		return (string) $this->get();
 	}
 }
