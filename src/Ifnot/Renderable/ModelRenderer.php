@@ -66,7 +66,7 @@ abstract class ModelRenderer {
      */
     protected function render($attribute, $renderer = null, $options = [])
     {
-        $attributeRenderers = Config::get('ifnot.renderable::config.default_model_renderers');
+        $attributeRenderers = Config::get('ifnot.renderable::config.default_attribute_renderers');
 
         // Load default renderer if no renderer defined
         if(is_null($renderer))
@@ -84,7 +84,7 @@ abstract class ModelRenderer {
                 'entity' => $this->entity,
                 'attribute' => $attribute,
                 'value' => $this->entity->$attribute
-            ]);
+            ])->__toString();
         }
         else {
             throw new RendererException('Could not found any class or view named "' . $renderer . '" for rendering attribute "' . $attribute . '" of object "' . get_parent_class() . '"');
