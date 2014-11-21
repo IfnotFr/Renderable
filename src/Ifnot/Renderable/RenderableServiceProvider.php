@@ -4,6 +4,10 @@ use Illuminate\Support\ServiceProvider;
 use View;
 use Config;
 
+/**
+ * Class RenderableServiceProvider
+ * @package Ifnot\Renderable
+ */
 class RenderableServiceProvider extends ServiceProvider {
 
 	/**
