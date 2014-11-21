@@ -15,28 +15,47 @@ abstract class BaseRenderer {
         ]
 	];
 
+    /**
+     * @param $entity
+     * @param $attribute
+     * @param $options
+     */
     public function __construct($entity, $attribute, $options)
     {
         $this->entity = $entity;
         $this->attribute = $attribute;
     }
 
+    /**
+     * @return mixed
+     */
     public function get()
     {
         return $this->entity->{$this->attribute};
     }
 
-	public function set($content)
+    /**
+     * @param $content
+     */
+    public function set($content)
 	{
         $this->entity->{$this->attribute} = $content;
         $this->entity->save();
 	}
 
+    /**
+     * @return bool
+     */
     public function isEmpty()
     {
         return !isset($this->entity->{$this->attribute}) OR empty($this->entity->{$this->attribute});
     }
 
+    /**
+     * @param $tag
+     * @param $attributes
+     * @return string
+     */
     public function into($tag, $attributes)
     {
         $openTag = '<' . $tag . ' ';
@@ -50,7 +69,10 @@ abstract class BaseRenderer {
         return $openTag . (string) $this->get() . $closeTag;
     }
 
-	public function __toString()
+    /**
+     * @return string
+     */
+    public function __toString()
 	{
 		return (string) $this->get();
 	}
