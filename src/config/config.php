@@ -12,7 +12,7 @@ return [
         'show' => 'ifnot.renderable::renderer.model.html'
     ],
     'default_property_renderers' => [
-        'show' => 'ifnot.renderable::renderer.attribute.html'
+        'show' => 'ifnot.renderable::renderer.property.html'
     ],
 
     //
