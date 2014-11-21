@@ -75,7 +75,7 @@ abstract class ModelRenderer {
         // If the $renderer is a valid class instanciate and run
         if(class_exists($renderer)) {
             $renderer = new $renderer($this->entity, $attribute, $this->mode);
-            return $renderer->__toString();
+            return $renderer;
         }
 
         // If $renderer is a view, compile and return the view
@@ -84,7 +84,7 @@ abstract class ModelRenderer {
                 'entity' => $this->entity,
                 'attribute' => $attribute,
                 'value' => $this->entity->$attribute
-            ])->__toString();
+            ]);
         }
         else {
             throw new RendererException('Could not found any class or view named "' . $renderer . '" for rendering attribute "' . $attribute . '" of object "' . get_parent_class() . '"');
