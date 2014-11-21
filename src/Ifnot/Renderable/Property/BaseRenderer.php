@@ -55,13 +55,13 @@ abstract class BaseRenderer {
 
     /**
      * @param $tag
-     * @param $propertys
+     * @param $attributes
      * @return string
      */
-    public function into($tag, $propertys)
+    public function into($tag, $attributes)
     {
         $openTag = '<' . $tag . ' ';
-        foreach($propertys as $name => $value) {
+        foreach($attributes as $name => $value) {
             $openTag .= $name . '="' . str_replace('"', '\\"', $value) . '" ';
         }
         $openTag .= '>';
@@ -80,6 +80,6 @@ abstract class BaseRenderer {
             'entity' => $this->entity,
             'property' => $this->property,
             'value' => $this->entity->{$this->property}
-        ]);
+        ])->__toString();
 	}
 }
