@@ -8,11 +8,10 @@ abstract class BaseRenderer {
 
     protected $entity;
     protected $property;
-
-    public static $defaultRenderers;
+    protected $mode;
 
 	protected $options = [
-		'view' => [
+		'views' => [
             'show' => 'ifnot.renderable::renderer.property.html'
         ]
 	];
@@ -22,10 +21,11 @@ abstract class BaseRenderer {
      * @param $property
      * @param $options
      */
-    public function __construct($entity, $property, $options)
+    public function __construct($entity, $property, $mode)
     {
         $this->entity = $entity;
         $this->property = $property;
+        $this->mode = $mode;
     }
 
     /**
@@ -76,6 +76,10 @@ abstract class BaseRenderer {
      */
     public function __toString()
 	{
-		return (string) $this->get();
+		return \View::make($this->options['views'][$this->mode], [
+            'entity' => $this->entity,
+            'property' => $this->property,
+            'value' => $this->entity->{$this->property}
+        ]);
 	}
 }
