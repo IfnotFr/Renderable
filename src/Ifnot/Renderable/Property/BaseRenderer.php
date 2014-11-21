@@ -4,7 +4,7 @@
  * Class BaseRenderer
  * @package Ifnot\Renderable\Renderers\Property
  */
-class BaseRenderer {
+abstract BaseRenderer {
 
     protected $entity;
     protected $attribute;
