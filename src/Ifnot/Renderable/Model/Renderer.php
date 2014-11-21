@@ -11,6 +11,10 @@ use View;
 abstract class Renderer {
     protected $mode = 'show';
 
+    public static $defaultRenderingMode;
+    public static $defaultModelRenderers;
+    public static $defaultAttributeRenderers;
+
     /**
      * @var mixed
      */
@@ -23,14 +27,14 @@ abstract class Renderer {
     {
         // Default mode
         if(is_null($mode))
-            $mode = Config::get('ifnot.renderable::config.default_rendering_mode');
+            $mode = self::$defaultRenderingMode;
 
         $this->entity = $entity;
         $this->mode = $mode;
 
         // Default model renderers
         if(!property_exists($this, 'renderers'))
-            $this->renderers = Config::get('ifnot.renderable::config.default_model_renderers');
+            $this->renderers = self::$defaultModelRenderers;
     }
 
     /**
@@ -78,7 +82,7 @@ abstract class Renderer {
      */
     protected function render($attribute, $renderer = null, $options = [])
     {
-        $attributeRenderers = Config::get('ifnot.renderable::config.default_attribute_renderers');
+        $attributeRenderers = self::$defaultAttributeRenderers;
 
         // Load default renderer if no renderer defined
         if(is_null($renderer))

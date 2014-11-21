@@ -1,5 +1,6 @@
 <?php namespace Ifnot\Renderable;
 
+use Ifnot\Renderable\Model\Renderer;
 use Illuminate\Support\ServiceProvider;
 use View;
 use Config;
@@ -20,10 +21,13 @@ class RenderableServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		$this->package('ifnot/renderable');
+		$this->package('ifnot/renderable', 'ifnot.renderable');
 
         View::addNamespace('ifnot.renderable', realpath(__DIR__.'/../../views'));
-        Config::addNamespace('ifnot.renderable', realpath(__DIR__.'/../../config'));
+
+        Renderer::$defaultRenderingMode = Config::get('ifnot.renderable::config.default_rendering_mode');
+        Renderer::$defaultModelRenderers = Config::get('ifnot.renderable::config.default_model_renderers');
+        Renderer::$defaultAttributeRenderers = Config::get('ifnot.renderable::config.default_attribute_renderers');
 	}
 
 	/**
