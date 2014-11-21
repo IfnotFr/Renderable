@@ -10,7 +10,9 @@ class BaseRenderer {
     protected $attribute;
 
 	protected $options = [
-		'view' => 'ifnot.renderable::renderer.attribute.html'
+		'view' => [
+            'show' => 'ifnot.renderable::renderer.attribute.html'
+        ]
 	];
 
     public function __construct($entity, $attribute, $options)
@@ -21,23 +23,18 @@ class BaseRenderer {
 
     public function get()
     {
-        $attribute = $this->attribute;
-        return $this->entity->$attribute;
+        return $this->entity->{$this->attribute};
     }
 
 	public function set($content)
 	{
-        $attribute = $this->attribute;
-
-        $this->entity->$attribute = $content;
+        $this->entity->{$this->attribute} = $content;
         $this->entity->save();
 	}
 
     public function isEmpty()
     {
-        $attribute = $this->attribute;
-
-        return !isset($this->entity->$attribute) OR empty($this->entity->$attribute);
+        return !isset($this->entity->{$this->attribute}) OR empty($this->entity->{$this->attribute});
     }
 
 	public function __toString()

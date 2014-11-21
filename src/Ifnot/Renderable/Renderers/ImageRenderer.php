@@ -6,6 +6,8 @@
  */
 class ImageRenderer extends BaseRenderer {
 	protected $options = [
-		'view' => 'ifnot.renderable::renderer.attribute.image'
+		'view' => [
+            'ifnot.renderable::renderer.attribute.image'
+        ]
 	];
 }

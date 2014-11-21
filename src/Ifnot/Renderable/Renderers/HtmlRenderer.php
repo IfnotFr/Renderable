@@ -6,6 +6,8 @@
  */
 class HtmlRenderer extends BaseRenderer {
 	protected $options = [
-		'view' => 'ifnot.renderable::renderer.attribute.html'
+		'view' => [
+            'show' => 'ifnot.renderable::renderer.attribute.html'
+        ]
 	];
 }

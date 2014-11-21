@@ -1,14 +1,15 @@
 <?php namespace Ifnot\Renderable;
 
+use Ifnot\Renderable\Exceptions\RendererException;
+use Config;
+use View;
+
 /**
  * Class ModelRenderer
  * @package Ifnot\Renderable
  */
 abstract class ModelRenderer {
-    protected $defaultRenderer = 'Ifnot\Renderable\Renderers\HtmlRenderer';
-    protected $options = [
-        'view' => 'ifnot.renderable::renderer.model.html'
-    ];
+    protected $mode = 'show';
 
     /**
      * @var mixed
@@ -18,9 +19,30 @@ abstract class ModelRenderer {
     /**
      * @param $entity
      */
-    function __construct($entity)
+    function __construct($entity, $mode = null)
     {
+        // Default mode
+        if(is_null($mode))
+            $mode = Config::get('ifnot.renderable::config.default_rendering_mode');
+
         $this->entity = $entity;
+        $this->mode = $mode;
+
+        // Default model renderers
+        if(!property_exists($this, 'renderers'))
+            $this->renderers = Config::get('ifnot.renderable::config.default_model_renderers');
+    }
+
+    /**
+     * Allow model to be rendered directly
+     *
+     * @return \Illuminate\View\View
+     */
+    public function __toString()
+    {
+        return View::make($this->renderers[$this->mode], [
+            'entity' => $this->entity
+        ]);
     }
 
     /**
@@ -29,37 +51,43 @@ abstract class ModelRenderer {
      * @param $property
      * @return mixed
      */
-    public function __get($property)
+    public function __get($attribute)
     {
-        if (method_exists($this, $property))
-        {
-            return $this->{$property}();
-        }
+        if (method_exists($this, $attribute))
+            return $this->{$attribute}();
 
-        return $this->render($property);
+        return $this->render($attribute);
     }
 
     /**
      * @param $attribute
-     * @param null $rendererClass
+     * @param null $renderer
      * @param array $options
      */
-    protected function render($attribute, $rendererClass = null, $options = [])
+    protected function render($attribute, $renderer = null, $options = [])
     {
-        if(is_null($rendererClass)) $rendererClass = $this->defaultRenderer;
+        $attributeRenderers = Config::get('ifnot.renderable::config.default_model_renderers');
 
-        $renderer = new $rendererClass($this->entity, $attribute, $options);
+        // Load default renderer if no renderer defined
+        if(is_null($renderer))
+            $renderer = $attributeRenderers[$this->mode];
 
-        return $renderer->__toString();
-    }
+        // If the $renderer is a valid class instanciate and run
+        if(class_exists($renderer)) {
+            $renderer = new $renderer($this->entity, $attribute, $this->mode);
+            return $renderer->__toString();
+        }
 
-    /**
-     * @return \Illuminate\View\View
-     */
-    public function __toString()
-    {
-        return \View::make($this->options['view'], [
-            'entity' => $this->entity
-        ]);
+        // If $renderer is a view, compile and return the view
+        elseif(View::exists($renderer)) {
+            return View::make($renderer, [
+                'entity' => $this->entity,
+                'attribute' => $attribute,
+                'value' => $this->entity->$attribute
+            ]);
+        }
+        else {
+            throw new RendererException('Could not found any class or view named "' . $renderer . '" for rendering attribute "' . $attribute . '" of object "' . get_parent_class() . '"');
+        }
     }
 } 

@@ -6,6 +6,8 @@
  */
 class TextRenderer extends BaseRenderer {
 	protected $options = [
-		'view' => 'ifnot.renderable::renderer.attribute.text'
+		'view' => [
+            'show' => 'ifnot.renderable::renderer.attribute.text'
+        ]
 	];
 }

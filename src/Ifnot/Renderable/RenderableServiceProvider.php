@@ -2,6 +2,7 @@
 
 use Illuminate\Support\ServiceProvider;
 use View;
+use Config;
 
 class RenderableServiceProvider extends ServiceProvider {
 
@@ -22,6 +23,7 @@ class RenderableServiceProvider extends ServiceProvider {
 		$this->package('ifnot/renderable');
 
         View::addNamespace('ifnot.renderable', realpath(__DIR__.'/../../views'));
+        Config::addNamespace('ifnot.renderable', realpath(__DIR__.'/../../config'));
 	}
 
 	/**

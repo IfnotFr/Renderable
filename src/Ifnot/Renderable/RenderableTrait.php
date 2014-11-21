@@ -17,10 +17,11 @@ trait RenderableTrait {
     /**
      * Prepare a new or cached renderer instance
      *
+     * @param array $options
      * @return mixed
      * @throws RendererException
      */
-    public function render()
+    public function render($mode = null)
     {
         if (!$this->renderer or !class_exists($this->renderer))
         {
@@ -29,7 +30,7 @@ trait RenderableTrait {
 
         if (!$this->rendererInstance)
         {
-            $this->rendererInstance = new $this->renderer($this);
+            $this->rendererInstance = new $this->renderer($this, $mode);
         }
 
         return $this->rendererInstance;
