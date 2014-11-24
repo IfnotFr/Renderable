@@ -68,7 +68,20 @@ abstract class BaseRenderer {
 
         $closeTag = '</' . $tag . '>';
 
-        return $openTag . (string) $this->get() . $closeTag;
+        return $openTag . (string) $this->render() . $closeTag;
+    }
+
+    /**
+     * @return string
+     */
+    protected function render($options = [])
+    {
+        return \View::make($this->options['views'][$this->mode], [
+            'entity' => $this->entity,
+            'property' => $this->property,
+            'value' => $this->entity->{$this->property},
+            'options' => $options
+        ])->__toString();
     }
 
     /**
@@ -76,10 +89,6 @@ abstract class BaseRenderer {
      */
     public function __toString()
 	{
-		return \View::make($this->options['views'][$this->mode], [
-            'entity' => $this->entity,
-            'property' => $this->property,
-            'value' => $this->entity->{$this->property}
-        ])->__toString();
+        return $this->render();
 	}
 }
