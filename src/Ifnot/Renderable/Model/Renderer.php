@@ -79,6 +79,8 @@ abstract class Renderer {
      * @param $property
      * @param null $renderer
      * @param array $options
+     * @throws RendererException
+     * @return mixed
      */
     protected function render($property, $renderer = null, $options = [])
     {
