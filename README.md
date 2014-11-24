@@ -6,7 +6,9 @@ Renderable is a PHP Presenter for Laravel, based on blade views for a final pres
 
 Simply install the package with composer.
 
-**Package is under developement and is not on composer**
+```bash
+composer require ifnot/renderable
+```
 
 Register the package service provider into your `app.php` :
 
