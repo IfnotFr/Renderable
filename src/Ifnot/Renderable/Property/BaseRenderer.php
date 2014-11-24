@@ -9,6 +9,7 @@ abstract class BaseRenderer {
     protected $entity;
     protected $property;
     protected $mode;
+    protected $bind;
 
 	protected $options = [
 		'views' => [
@@ -19,13 +20,13 @@ abstract class BaseRenderer {
     /**
      * @param $entity
      * @param $property
-     * @param $options
      */
-    public function __construct($entity, $property, $mode)
+    public function __construct($entity, $property, $mode, $bind = [])
     {
         $this->entity = $entity;
         $this->property = $property;
         $this->mode = $mode;
+        $this->bind = $bind;
     }
 
     /**
@@ -54,41 +55,15 @@ abstract class BaseRenderer {
     }
 
     /**
-     * @param $tag
-     * @param $attributes
-     * @return string
-     */
-    public function into($tag, $attributes)
-    {
-        $openTag = '<' . $tag . ' ';
-        foreach($attributes as $name => $value) {
-            $openTag .= $name . '="' . str_replace('"', '\\"', $value) . '" ';
-        }
-        $openTag .= '>';
-
-        $closeTag = '</' . $tag . '>';
-
-        return $openTag . (string) $this->render() . $closeTag;
-    }
-
-    /**
-     * @return string
-     */
-    protected function render($options = [])
-    {
-        return \View::make($this->options['views'][$this->mode], [
-            'entity' => $this->entity,
-            'property' => $this->property,
-            'value' => $this->entity->{$this->property},
-            'options' => $options
-        ])->__toString();
-    }
-
-    /**
      * @return string
      */
     public function __toString()
 	{
-        return $this->render();
+        return \View::make($this->options['views'][$this->mode], array_merge([
+            'entity' => $this->entity,
+            'property' => $this->property,
+            'value' => $this->get(),
+            'options' => $this->bind
+        ], $this->bind))->__toString();
 	}
 }

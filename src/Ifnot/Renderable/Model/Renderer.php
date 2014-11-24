@@ -76,13 +76,15 @@ abstract class Renderer {
     }
 
     /**
+     * Render a property of the object using view or class (called $renderer)
+     *
      * @param $property
      * @param null $renderer
-     * @param array $options
+     * @param array $bind
      * @throws RendererException
      * @return mixed
      */
-    protected function render($property, $renderer = null, $options = [])
+    protected function render($property, $renderer = null, $bind = [])
     {
         $propertyRenderers = self::$defaultPropertyRenderers;
 
@@ -92,17 +94,17 @@ abstract class Renderer {
 
         // If the $renderer is a valid class instanciate and run
         if(class_exists($renderer)) {
-            $renderer = new $renderer($this->entity, $property, $this->mode);
+            $renderer = new $renderer($this->entity, $property, $this->mode, $bind);
             return $renderer;
         }
 
         // If $renderer is a view, compile and return the view
         elseif(View::exists($renderer)) {
-            return View::make($renderer, [
+            return View::make($renderer, array_merge([
                 'entity' => $this->entity,
                 'property' => $property,
                 'value' => $this->entity->$property
-            ]);
+            ], $bind));
         }
         else {
             throw new RendererException('Could not found any class or view named "' . $renderer . '" for rendering property "' . $property . '" of object "' . get_class($this->entity) . '"');
