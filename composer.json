@@ -1,12 +1,18 @@
 {
     "name": "ifnot/renderable",
-    "description": "",
+    "description": "Renderable is a PHP Presenter for Laravel, based on blade views for a final presentation of Eloquent models directly on your views.",
+    "keywords": ["renderable", "render", "view", "eloquent", "model"],
+    "license": "WTFPL",
     "authors": [
         {
             "name": "Anael Favre",
             "email": "anael.favre@gmail.com"
         }
     ],
+    "support": {
+        "email": "anael.favre@gmail.com",
+        "issues": "https://github.com/Ifnot/renderable/issues"
+    },
     "require": {
         "php": ">=5.4.0",
         "illuminate/support": "4.2.*"
