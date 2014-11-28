@@ -63,7 +63,7 @@ abstract class BaseRenderer {
             'entity' => $this->entity,
             'property' => $this->property,
             'value' => $this->get(),
-            'options' => $this->bind
+            'bind' => $this->bind
         ], $this->bind))->__toString();
 	}
 }
