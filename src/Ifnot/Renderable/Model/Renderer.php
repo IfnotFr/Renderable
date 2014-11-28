@@ -43,6 +43,8 @@ abstract class Renderer {
     public function bind($attributes)
     {
         $this->bind = array_merge($this->bind, $attributes);
+
+        return $this;
     }
 
     /**
