@@ -1,7 +1,6 @@
 <?php namespace Ifnot\Renderable\Model;
 
 use Ifnot\Renderable\Exceptions\RendererException;
-use Config;
 use View;
 
 /**
@@ -38,6 +37,14 @@ abstract class Renderer {
     }
 
     /**
+     * @return string
+     */
+    protected function getEntityBaseName()
+    {
+        return strtolower(class_basename(get_class($this->entity)));
+    }
+
+    /**
      * Allow model to be rendered directly
      *
      * @return \Illuminate\View\View
@@ -45,8 +52,9 @@ abstract class Renderer {
     public function __toString()
     {
         return View::make($this->renderers[$this->mode], [
-            'entity' => $this->entity
-        ]);
+            'entity' => $this->entity,
+            $this->getEntityBaseName() => $this->entity
+        ])->render();
     }
 
     /**
@@ -104,10 +112,10 @@ abstract class Renderer {
                 'entity' => $this->entity,
                 'property' => $property,
                 'value' => $this->entity->$property
-            ], $bind));
+            ], $bind))->render();
         }
         else {
             throw new RendererException('Could not found any class or view named "' . $renderer . '" for rendering property "' . $property . '" of object "' . get_class($this->entity) . '"');
         }
     }
-} 
+}
