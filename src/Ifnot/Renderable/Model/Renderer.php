@@ -9,6 +9,7 @@ use View;
  */
 abstract class Renderer {
     protected $mode = 'show';
+    protected $bind = [];
 
     public static $defaultRenderingMode;
     public static $defaultModelRenderers;
@@ -37,6 +38,14 @@ abstract class Renderer {
     }
 
     /**
+     * @param $attributes
+     */
+    public function bind($attributes)
+    {
+        $this->bind = array_merge($this->bind, $attributes);
+    }
+
+    /**
      * @return string
      */
     protected function getEntityBaseName()
@@ -51,10 +60,10 @@ abstract class Renderer {
      */
     public function __toString()
     {
-        return View::make($this->renderers[$this->mode], [
+        return View::make($this->renderers[$this->mode], array_merge([
             'entity' => $this->entity,
             $this->getEntityBaseName() => $this->entity
-        ])->render();
+        ], $this->bind))->render();
     }
 
     /**
@@ -112,7 +121,7 @@ abstract class Renderer {
                 'entity' => $this->entity,
                 'property' => $property,
                 'value' => $this->entity->$property
-            ], $bind))->render();
+            ], $this->bind, $bind))->render();
         }
         else {
             throw new RendererException('Could not found any class or view named "' . $renderer . '" for rendering property "' . $property . '" of object "' . get_class($this->entity) . '"');
