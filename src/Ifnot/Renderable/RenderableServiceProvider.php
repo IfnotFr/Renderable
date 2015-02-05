@@ -28,9 +28,9 @@ class RenderableServiceProvider extends ServiceProvider {
 
         View::addNamespace('ifnot.renderable', realpath(__DIR__.'/../../views'));
 
-        Model\Renderer::$defaultRenderingMode = Config::get('ifnot.renderable::config.default_rendering_mode');
-        Model\Renderer::$defaultModelRenderers = Config::get('ifnot.renderable::config.default_model_renderers');
-        Model\Renderer::$defaultPropertyRenderers = Config::get('ifnot.renderable::config.default_property_renderers');
+		\Ifnot\Renderable\Renderer::$defaultRenderingMode = Config::get('ifnot.renderable::config.default_rendering_mode');
+		\Ifnot\Renderable\Renderer::$defaultModelRenderers = Config::get('ifnot.renderable::config.default_model_renderers');
+		\Ifnot\Renderable\Renderer::$defaultPropertyRenderers = Config::get('ifnot.renderable::config.default_property_renderers');
 	}
 
 	/**

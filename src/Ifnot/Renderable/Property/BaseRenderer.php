@@ -5,53 +5,27 @@
  * @package Ifnot\Renderable\Property
  */
 abstract class BaseRenderer {
-
-    protected $entity;
-    protected $property;
+    protected $value;
     protected $mode;
     protected $bind;
 
-	protected $options = [
-		'views' => [
-            'show' => 'ifnot.renderable::renderer.property.html'
-        ]
+	protected $views = [
+		'show' => 'ifnot.renderable::renderer.property.html'
 	];
 
     /**
-     * @param $entity
-     * @param $property
+     * @param       $value
+     * @param       $mode
+     * @param array $bind
+     *
+     * @internal param $entity
+     * @internal param $property
      */
-    public function __construct($entity, $property, $mode, $bind = [])
+    public function __construct($value, $mode, $bind)
     {
-        $this->entity = $entity;
-        $this->property = $property;
+        $this->value = $value;
         $this->mode = $mode;
         $this->bind = $bind;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function get()
-    {
-        return $this->entity->{$this->property};
-    }
-
-    /**
-     * @param $content
-     */
-    public function set($content)
-	{
-        $this->entity->{$this->property} = $content;
-        $this->entity->save();
-	}
-
-    /**
-     * @return bool
-     */
-    public function isEmpty()
-    {
-        return !isset($this->entity->{$this->property}) OR empty($this->entity->{$this->property});
     }
 
     /**
@@ -59,10 +33,8 @@ abstract class BaseRenderer {
      */
     public function __toString()
 	{
-        return \View::make($this->options['views'][$this->mode], array_merge([
-            'entity' => $this->entity,
-            'property' => $this->property,
-            'value' => $this->get(),
+        return \View::make($this->views[$this->mode], array_merge([
+            'value' => $this->value,
             'bind' => $this->bind
         ], $this->bind))->__toString();
 	}

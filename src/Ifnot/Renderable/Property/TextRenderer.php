@@ -5,9 +5,7 @@
  * @package Ifnot\Renderable\Property
  */
 class TextRenderer extends BaseRenderer {
-	protected $options = [
-		'view' => [
-            'show' => 'ifnot.renderable::renderer.property.text'
-        ]
+	protected $views = [
+		'show' => 'ifnot.renderable::renderer.property.text'
 	];
 }
