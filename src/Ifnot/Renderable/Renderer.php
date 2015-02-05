@@ -12,9 +12,7 @@ class Renderer {
 	use ModelRendererTrait;
 	use PropertyRendererTrait;
 
-	public static $defaultRenderingMode;
-	public static $defaultModelRenderers;
-	public static $defaultPropertyRenderers;
+	public static $globalMode;
 
 	/**
 	 * @var mixed
@@ -30,7 +28,7 @@ class Renderer {
 	{
 		// Default mode
 		if(is_null($mode))
-			$mode = self::$defaultRenderingMode;
+			$mode = self::$globalMode;
 
 		$this->entity = $entity;
 		$this->mode = $mode;
@@ -52,9 +50,9 @@ class Renderer {
 	protected function testRenderableConfiguration($type)
 	{
 		if(!isset($this->renderable) OR !isset($this->renderable[$type]))
-			throw new RendererException("No renderable configuration found into your renderer object " . get_class($this) . ". Please fill up a " . '$renderable' . " property into your object.");
+			throw new RendererException("No renderable configuration found into your renderer object " . get_class($this) . " (type : $type). Please fill up a " . '$renderable' . " property into your object.");
 
 		if(!isset($this->renderable[$type][$this->mode]))
-			throw new RendererException("No configuration found for renderable mode " . $this->mode . " into your renderable object " . get_class($this) . ".");
+			throw new RendererException("No configuration found for renderable mode " . $this->mode . " into your renderable object " . get_class($this) . " (type : $type).");
 	}
 }

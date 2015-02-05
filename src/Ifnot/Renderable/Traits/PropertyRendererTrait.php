@@ -26,19 +26,22 @@ trait PropertyRendererTrait {
 	 * @param       $value
 	 * @param null  $classOrView
 	 * @param array $bind
+	 *
+	 * @return
+	 * @throws RendererException
 	 */
 	public function render($value, $classOrView = null, $bind = [])
 	{
-		$this->testRenderableConfiguration('property');
-
 		// Get property name
 		list(,$caller) = debug_backtrace(false, 5);
 		if($caller['function'] == "__get") $property = $caller['args'][0];
 		else $property = $caller['function'];
 
 		// Load default renderer if no renderer defined
-		if(is_null($classOrView))
+		if(is_null($classOrView)) {
+			$this->testRenderableConfiguration('property');
 			$classOrView = $this->renderable['property'][$this->mode];
+		}
 
 		// If the $renderer is a valid class instanciate and run
 		if(class_exists($classOrView)) {
