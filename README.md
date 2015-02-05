@@ -56,14 +56,18 @@ And then, the `page.property.title` view:
 <h1>{{ $property }}</h1>
 ```
 
-Now you can call `$page->render()->title` into a view :
+Now you can call `$page->render()->title` into a regular view of your app:
 
 ```html
+  .. other stuff here ...
+  
   <div>
     {{ $page->render()->title}}
     
     <p>This is another text, blah blah blah ...</p>
   </div>
+  
+  .. other stuff here ..
 ```
 
 ### Basic setup for Model Renderer
@@ -99,7 +103,11 @@ And then, the `page.model` view :
 Now you can call `$page->render()` into a view :
 
 ```html
+  .. other stuff here ..
+  
   <article>
     {{ $page->render() }}
   </article>
+  
+  .. other stuff here ..
 ```
