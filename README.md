@@ -26,7 +26,7 @@ There are two aspects in this package :
   * Property renderer
   * Model renderer
 
-## Basic setup for Property Renderer
+## Property Renderer (Basic setup)
 
 We have a `Page` Model (it could be Eloquent Model) and a `PageRenderer` (the Renderer class assigned for Page).
 
@@ -45,9 +45,9 @@ PageRenderer :
 use Ifnot\Renderable\Renderer;
 
 class PageRenderer extends Renderer {
-	public function title() {
-		return $this->render($this->entity->title, 'page.property.title');
-	}
+  public function title() {
+    return $this->render($this->entity->title, 'page.property.title');
+  }
 }
 ```
 
@@ -70,7 +70,7 @@ Now you can call `$page->render()->title` into a regular view of your app:
   .. other stuff here ..
 ```
 
-### Basic setup for Model Renderer
+### Model Renderer (Basic setup)
 
 Now ok, you want to render your whole model by itself, without specifying each properties. We have to add some configuration into `PageRenderer` :
 
@@ -80,14 +80,14 @@ use Ifnot\Renderable\Renderer;
 
 class PageRenderer extends Renderer {
   public $renderable = [
-		'model' => [
-			'show' => 'page.model'
-		]
-	];
+    'model' => [
+      'show' => 'page.model'
+     ]
+  ];
   
   // ...
-	// Here, properties declaration (like title in the previous example)
-	// ...
+  // Here, properties declaration (like title in the previous example)
+  // ...
 }
 ```
 
@@ -103,11 +103,16 @@ And then, the `page.model` view :
 Now you can call `$page->render()` into a view :
 
 ```html
-  .. other stuff here ..
-  
-  <article>
-    {{ $page->render() }}
-  </article>
-  
-  .. other stuff here ..
+.. other stuff here ..
+
+<article>
+  {{ $page->render() }}
+</article>
+
+.. other stuff here ..
 ```
+
+## Advanced Setups
+
+  * TODO : Write some lines about property binding
+  * TODO : Explain display mode usage ...
