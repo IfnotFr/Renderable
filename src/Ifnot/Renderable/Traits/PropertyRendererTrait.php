@@ -19,7 +19,41 @@ trait PropertyRendererTrait {
 		if(method_exists($this, $property))
 			return $this->{$property}();
 
-		return $this->render($this->getEntity()->$property);
+		return $this->renderProperty($property);
+	}
+
+	/**
+	 * @param null  $classOrView
+	 * @param array $bind
+	 *
+	 * @return string
+	 */
+	public function render($classOrView = null, $bind = [])
+	{
+		// Get property name
+		list(,$caller) = debug_backtrace(false, 2);
+		$property = $caller['function'];
+
+		return $this->renderProperty($property, $classOrView, $bind);
+	}
+
+	/**
+	 * @param       $property
+	 * @param null  $classOrView
+	 * @param array $bind
+	 *
+	 * @return string
+	 * @throws RendererException
+	 */
+	public function renderProperty($property, $classOrView = null, $bind = [])
+	{
+		// Save that we render a property of an object
+		$bind['render'] = [
+			'entity' => $this->entity,
+			'property' => $property
+		];
+
+		return $this->renderValue($this->entity->$property, $classOrView, $bind);
 	}
 
 	/**
@@ -27,21 +61,13 @@ trait PropertyRendererTrait {
 	 * @param null  $classOrView
 	 * @param array $bind
 	 *
-	 * @return
+	 * @return string
 	 * @throws RendererException
 	 */
-	public function render($value, $classOrView = null, $bind = [])
+	public function renderValue($value, $classOrView = null, $bind = [])
 	{
-		// Get property name
-		list(,$caller) = debug_backtrace(false, 5);
-		if($caller['function'] == "__get") $property = $caller['args'][0];
-		else $property = $caller['function'];
-
-		// Load default renderer if no renderer defined
-		if(is_null($classOrView)) {
-			$this->testRenderableConfiguration('property');
-			$classOrView = $this->renderable['property'][$this->mode];
-		}
+		if(is_null($classOrView))
+			$classOrView = $this->loadDefaultRenderable();
 
 		// If the $renderer is a valid class instanciate and run
 		if(class_exists($classOrView)) {
@@ -52,10 +78,16 @@ trait PropertyRendererTrait {
 		elseif(\View::exists($classOrView)) {
 			return \View::make($classOrView, array_merge([
 				'property' => $value,
-			], $this->bind, $bind))->render();
+			], $bind))->render();
 		}
 		else {
-			throw new RendererException('Could not found any class or view named "' . $classOrView . '" for rendering property "' . $property . '" of object "' . get_class($this->entity) . '"');
+			throw new RendererException('Could not found any class or view named "' . $classOrView . '" for rendering property of object "' . get_class($this->entity) . '"');
 		}
+	}
+
+	protected function loadDefaultRenderable()
+	{
+		$this->testRenderableConfiguration('property');
+		return $this->renderable['property'][$this->mode];
 	}
 } 
