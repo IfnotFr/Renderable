@@ -17,9 +17,6 @@ abstract class BaseRenderer {
      * @param       $value
      * @param       $mode
      * @param array $bind
-     *
-     * @internal param $entity
-     * @internal param $property
      */
     public function __construct($value, $mode, $bind)
     {
@@ -38,4 +35,12 @@ abstract class BaseRenderer {
             'bind' => $this->bind
         ], $this->bind))->__toString();
 	}
+
+	/**
+     * @return string
+     */
+    public function toString()
+    {
+        return $this->__toString();
+    }
 }
