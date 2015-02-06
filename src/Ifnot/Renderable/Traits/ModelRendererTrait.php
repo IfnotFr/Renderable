@@ -24,6 +24,8 @@ trait ModelRendererTrait {
     public function bind($bind)
     {
         $this->bind = $bind;
+
+        return $this;
     }
 
 	/**
