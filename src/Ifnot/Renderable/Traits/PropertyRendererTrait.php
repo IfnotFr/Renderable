@@ -77,7 +77,7 @@ trait PropertyRendererTrait {
 		// If $renderer is a view, compile and return the view
 		elseif(\View::exists($classOrView)) {
 			return \View::make($classOrView, array_merge([
-				'property' => $value,
+				'value' => $value,
 			], $bind))->render();
 		}
 		else {
