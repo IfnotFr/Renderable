@@ -1,6 +1,7 @@
 <?php namespace Ifnot\Renderable;
 
 use Illuminate\Support\ServiceProvider;
+use Ifnot\Renderable\Renderer;
 use View;
 use Config;
 
@@ -28,7 +29,7 @@ class RenderableServiceProvider extends ServiceProvider {
 
         View::addNamespace('ifnot.renderable', realpath(__DIR__.'/../../views'));
 
-		\Ifnot\Renderable\Renderer::$globalMode = Config::get('ifnot.renderable::config.global_mode');
+		Renderer::$globalMode = Config::get('ifnot.renderable::config.global_mode');
 	}
 
 	/**
