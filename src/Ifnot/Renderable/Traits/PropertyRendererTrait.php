@@ -1,7 +1,5 @@
 <?php namespace Ifnot\Renderable\Traits;
 
-use Ifnot\Renderable\Exceptions\RendererException;
-
 /**
  * Class PropertyRendererTrait
  * @package Ifnot\Renderable
@@ -43,7 +41,7 @@ trait PropertyRendererTrait {
 	 * @param array $bind
 	 *
 	 * @return string
-	 * @throws RendererException
+	 * @throws \Exception
 	 */
 	public function renderProperty($property, $classOrView = null, $bind = [])
 	{
@@ -62,12 +60,12 @@ trait PropertyRendererTrait {
 	 * @param array $bind
 	 *
 	 * @return string
-	 * @throws RendererException
+	 * @throws \Exception
 	 */
 	public function renderValue($value, $classOrView = null, $bind = [])
 	{
 		if(is_null($classOrView))
-			$classOrView = $this->loadDefaultRenderable();
+			$classOrView = $this->getRenderable('property');
 
 		// If the $renderer is a valid class instanciate and run
 		if(class_exists($classOrView)) {
@@ -81,13 +79,7 @@ trait PropertyRendererTrait {
 			], $bind))->render();
 		}
 		else {
-			throw new RendererException('Could not found any class or view named "' . $classOrView . '" for rendering property of object "' . get_class($this->entity) . '"');
+			throw new \Exception('Could not found any class or view named "' . $classOrView . '" for rendering property of object "' . get_class($this->entity) . '"');
 		}
-	}
-
-	protected function loadDefaultRenderable()
-	{
-		$this->testRenderableConfiguration('property');
-		return $this->renderable['property'][$this->mode];
 	}
 } 

@@ -1,7 +1,5 @@
 <?php namespace Ifnot\Renderable;
 
-use Ifnot\Renderable\Exceptions\RendererException;
-
 /**
  * Class RenderableTrait
  * @package Ifnot\Renderable
@@ -19,13 +17,13 @@ trait RenderableTrait {
 	 *
 	 * @param array $options
 	 * @return mixed
-	 * @throws RendererException
+	 * @throws \Exception
 	 */
 	public function render($mode = null)
 	{
 		if (!$this->renderer or !class_exists($this->renderer))
 		{
-			throw new RendererException('Please set the $renderer property to your renderer path.');
+			throw new \Exception('Please set the $renderer property to your renderer path.');
 		}
 
 		if (!$this->rendererInstance)

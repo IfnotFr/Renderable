@@ -28,17 +28,20 @@ trait ModelRendererTrait {
         return $this;
     }
 
+    public function getBinds()
+    {
+        return array_merge([
+            'entity' => $this->getEntity(),
+            $this->getEntityBaseName() => $this->getEntity()
+        ], $this->bind);
+    }
+
 	/**
      * @return string
      */
     protected function renderModel()
     {
-        $this->testRenderableConfiguration('model');
-
-        return (string) \View::make($this->renderable['model'][$this->mode], array_merge([
-            'entity' => $this->getEntity(),
-            $this->getEntityBaseName() => $this->getEntity()
-        ], $this->bind))->render();
+        return (string) \View::make($this->getRenderable('model'), $this->getBinds())->render();
     }
 
     /**
